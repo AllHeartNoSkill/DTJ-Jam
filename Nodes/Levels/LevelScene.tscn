@@ -1,0 +1,36 @@
+[gd_scene load_steps=6 format=3 uid="uid://bbe84tcbewwqq"]
+
+[ext_resource type="Script" path="res://Scripts/Levels/LevelScene.cs" id="1_tn2fm"]
+[ext_resource type="Script" path="res://Scripts/Levels/LevelGenerator.cs" id="2_nypkv"]
+[ext_resource type="PackedScene" uid="uid://cml57dykp2jew" path="res://Nodes/Levels/LevelGrid.tscn" id="3_olx31"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hq6no"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_s7qtu"]
+material = SubResource("StandardMaterial3D_hq6no")
+size = Vector3(1, 50, 1)
+
+[node name="LevelScene" type="Node3D" node_paths=PackedStringArray("_levelGenerator", "_levelPivot")]
+script = ExtResource("1_tn2fm")
+_levelGenerator = NodePath("LevelGenerator")
+_levelPivot = NodePath("LevelPivot")
+
+[node name="LevelGenerator" type="Node3D" parent="." node_paths=PackedStringArray("_temporaryPoint")]
+script = ExtResource("2_nypkv")
+_levelGridSize = Vector2(3, 3)
+_levelGridPrefab = ExtResource("3_olx31")
+_buildingRadius = 5.0
+_temporaryPoint = NodePath("../MeshInstance3D")
+
+[node name="LevelPivot" type="Node3D" parent="."]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.365364, 0.930865, 0, -0.930865, 0.365364, 34.4825, 84.6739, 86.7752)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 0, 90.5132, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+visible = false
+mesh = SubResource("BoxMesh_s7qtu")
