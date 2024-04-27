@@ -19,6 +19,7 @@ func _generate_texture(suffix):
 
 	image.save_jpg("res://Bolt/texture" + str(suffix) + ".jpg")
 
+# TODO get parameter according to level data
 func random_camera_pos(max_x, max_z):
 	var camera = get_node("Camera")
 
@@ -33,7 +34,6 @@ func random_camera_pos(max_x, max_z):
 
 func _capture_image(count):
 	random_camera_pos(3, 3)
-	# await get_tree().create_timer(0.5).timeout
 	_generate_texture(count)
 
 func _capture_multiple():
