@@ -2,20 +2,26 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using DTJJam.Scripts.Levels;
+using Godot.Collections;
+using Array = Godot.Collections.Array;
 
 public partial class LevelGenerator : Node3D
 {
 	[ExportGroup("Level Parameters")] 
-	[Export] private Vector2 _levelGridSize = new Vector2();
+	[Export] private Vector2I _groundGridSize = new Vector2I();
 	[Export] private PackedScene _levelGridPrefab;
 	[Export] private float _levelPrefabSize = 25f;
+	[Export] private Vector2I _levelGridSize = new Vector2I();
 
 	[ExportGroup("Building Parameters")]
-	[Export] private float _buildingRadius = 1f;
+	[Export] private float _buildingRadiusMultiplier = 3f;
 	[Export] private int _buildingRejectionSamples = 30;
 	[Export] private MeshInstance3D _temporaryPoint;
+	[Export] private Array<LevelObjectData> _buildingPrefabs = new Array<LevelObjectData>();
 
 	private Vector2 _regionSize = new Vector2();
+	private int[,] _levelGrid;
+	private float _gridCellSize;
 		
 	private List<LevelGrid> _spawnedGrids = new List<LevelGrid>();
 	private Node3D _levelPivot;
@@ -45,9 +51,9 @@ public partial class LevelGenerator : Node3D
 			0f,
 			_levelPrefabSize / 2f);
 		
-		for (int row = 0; row < _levelGridSize.Y; row++)
+		for (int row = 0; row < _groundGridSize.Y; row++)
 		{
-			for (int col = 0; col < _levelGridSize.X; col++)
+			for (int col = 0; col < _groundGridSize.X; col++)
 			{
 				LevelGrid spawnedGrid = _levelGridPrefab.Instantiate<LevelGrid>();
 				_levelPivot.AddChild(spawnedGrid);
@@ -61,19 +67,32 @@ public partial class LevelGenerator : Node3D
 			}
 		}
 
-		_regionSize.X = _levelPrefabSize * (_levelGridSize.X);
-		_regionSize.Y = _levelPrefabSize * (_levelGridSize.Y);
+		_regionSize.X = _levelPrefabSize * (_groundGridSize.X);
+		_regionSize.Y = _levelPrefabSize * (_groundGridSize.Y);
+
+		_levelGrid = new int[_levelGridSize.X, _levelGridSize.Y];
+		_gridCellSize = _regionSize.X / _levelGridSize.X;
 	}
 
 	private void GenerateBuilding()
 	{
-		List<Vector2> points = PoissonDiscSampling.GeneratePoints(_buildingRadius, _regionSize, _buildingRejectionSamples);
-		foreach (var point in points)
+		Godot.Collections.Dictionary<LevelObject, Vector2> objectsToSpawn = PoissonDiscSampling.GenerateLevelObjects(
+			_buildingPrefabs,
+			_regionSize,
+			_levelGrid,
+			_gridCellSize,
+			_buildingRadiusMultiplier,
+			_buildingRejectionSamples);
+
+		foreach (var objectSpawnData in objectsToSpawn)
 		{
-			MeshInstance3D myMesh = (MeshInstance3D)_temporaryPoint.Duplicate();
-			AddChild(myMesh);
-			myMesh.Visible = true;
-			myMesh.Position = new Vector3(point.X, 0f, point.Y);
+			AddChild(objectSpawnData.Key);
+			objectSpawnData.Key.Position = new Vector3(objectSpawnData.Value.X, 0f, objectSpawnData.Value.Y);
 		}
+	}
+
+	private void PlaceBuilding(PackedScene buildingPrefab, int posX, int posY)
+	{
+		
 	}
 }
