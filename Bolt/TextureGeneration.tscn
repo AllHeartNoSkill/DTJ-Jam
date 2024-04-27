@@ -7,7 +7,6 @@
 [sub_resource type="PrismMesh" id="PrismMesh_m84gd"]
 
 [node name="TextureGeneration" type="Node3D"]
-script = ExtResource("1_0bxgl")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(3.23616, 0, 0, 0, 1, 0, 0, 0, 3.14836, -0.017859, 0, 0)
@@ -17,8 +16,32 @@ mesh = SubResource("PlaneMesh_rt8rk")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0522497, 0, -0.583386)
 mesh = SubResource("PrismMesh_m84gd")
 
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.51426, 0, 1.13012)
+mesh = SubResource("PrismMesh_m84gd")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.217961, 0, -5.19154)
+mesh = SubResource("PrismMesh_m84gd")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.62558, 0, 1.13012)
+mesh = SubResource("PrismMesh_m84gd")
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.600378, 0, 3.49425)
+mesh = SubResource("PrismMesh_m84gd")
+
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.901274, 0.347726, -0.258442, 0, 0.596519, 0.802599, 0.43325, -0.723361, 0.537627, -2.71395, 1.56487, 1.72472)
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.89509, 0.445885, 0, -0.445885, 0.89509, -0.00404292, 1.00435, 1.68944)
+
+[node name="SubViewport" type="SubViewport" parent="."]
+handle_input_locally = false
+render_target_update_mode = 4
+script = ExtResource("1_0bxgl")
+
+[node name="Camera" type="Camera3D" parent="SubViewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.173)
