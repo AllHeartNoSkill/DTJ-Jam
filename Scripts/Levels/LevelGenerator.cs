@@ -70,6 +70,8 @@ public partial class LevelGenerator : Node3D
 		GenerateMiscObject();
 		await Task.Delay(1000);
 		GenerateImportantPoints();
+
+		GameEvents.Instance.LevelLoaded();
 	}
 
 	private void GenerateGround()
