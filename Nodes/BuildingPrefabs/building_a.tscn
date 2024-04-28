@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://d31g7b4eg10ux"]
+
+[ext_resource type="Script" path="res://Scripts/Levels/LevelObject.cs" id="1_n7haj"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_bjtl3"]
+size = Vector3(2, 5, 2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_x4xtq"]
+size = Vector3(2, 5, 2)
+
+[node name="BuildingA" type="StaticBody3D"]
+script = ExtResource("1_n7haj")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
+mesh = SubResource("BoxMesh_bjtl3")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
+shape = SubResource("BoxShape3D_x4xtq")
