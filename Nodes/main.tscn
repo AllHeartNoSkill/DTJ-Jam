@@ -188,6 +188,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_lxmw2")
 [connection signal="pressed" from="Menu/MainMenu/Quit" to="Menu" method="OnQuitButtonPressed"]
 [connection signal="pressed" from="Menu/RestartMenu/Restart" to="Menu" method="OnRestartButtonPressed"]
 [connection signal="pressed" from="Menu/RestartMenu/Quit" to="Menu" method="OnQuitButtonPressed"]
+[connection signal="MissionCompleteSignal" from="GameEvents" to="PicturesMenu" method="_on_game_events_mission_complete_signal"]
 [connection signal="StartGameSignal" from="GameEvents" to="PauseMenu" method="_on_game_events_start_game_signal"]
 
 [editable path="Player"]
