@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://bbe84tcbewwqq"]
+[gd_scene load_steps=10 format=3 uid="uid://bbe84tcbewwqq"]
 
 [ext_resource type="Script" path="res://Scripts/Levels/LevelScene.cs" id="1_tn2fm"]
 [ext_resource type="Script" path="res://Scripts/Levels/LevelGenerator.cs" id="2_nypkv"]
@@ -9,7 +9,6 @@
 [ext_resource type="Resource" uid="uid://cojo524ffcp5l" path="res://ScriptableResources/MiscObjectsData/BlueBox.tres" id="7_6p2ds"]
 [ext_resource type="Resource" uid="uid://b2ielhc0ifp6n" path="res://ScriptableResources/MiscObjectsData/GreenBox.tres" id="8_70hby"]
 [ext_resource type="Resource" uid="uid://b584vey6cgso8" path="res://ScriptableResources/MiscObjectsData/RedBox.tres" id="9_4tsc8"]
-[ext_resource type="Script" path="res://Scripts/Tools/CameraMoveDebug/camera.gd" id="10_8tdd8"]
 
 [node name="LevelScene" type="Node3D" node_paths=PackedStringArray("_levelGenerator", "_levelPivot")]
 script = ExtResource("1_tn2fm")
@@ -25,45 +24,9 @@ _buildingRadiusMultiplier = 2.5
 _buildingDatas = [ExtResource("4_tjuwo"), ExtResource("5_def73"), ExtResource("6_38osx")]
 _buildingRayMask = 1
 _rotateBuilding = true
-_miscObjectRadiusMultiplier = 2.0
 _miscObjectDatas = [ExtResource("7_6p2ds"), ExtResource("8_70hby"), ExtResource("9_4tsc8")]
 _miscObjectRayMask = 3
 _rotateMiscObject = true
+_groundRayMask = 3
 
 [node name="LevelPivot" type="Node3D" parent="."]
-
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.568777, 0.822492, 0, -0.822492, 0.568777, 34.4825, 84.6739, 73.7716)
-fov = 54.5
-script = ExtResource("10_8tdd8")
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.871933, -0.472942, 0.126725, 0, 0.258819, 0.965926, -0.489626, -0.842222, 0.225673, 0, 90.5132, 0)
-shadow_enabled = true
-
-[node name="LevelGrid" parent="." instance=ExtResource("3_olx31")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.1957, 0, 11.8859)
-
-[node name="LevelGrid2" parent="." instance=ExtResource("3_olx31")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 37.1957, 0, 11.8859)
-
-[node name="LevelGrid3" parent="." instance=ExtResource("3_olx31")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 62.1957, 0, 11.8859)
-
-[node name="LevelGrid4" parent="." instance=ExtResource("3_olx31")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.1957, 0, 36.8859)
-
-[node name="LevelGrid5" parent="." instance=ExtResource("3_olx31")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 37.1957, 0, 36.8859)
-
-[node name="LevelGrid6" parent="." instance=ExtResource("3_olx31")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 62.1957, 0, 36.8859)
-
-[node name="LevelGrid7" parent="." instance=ExtResource("3_olx31")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.1957, 0, 61.8859)
-
-[node name="LevelGrid8" parent="." instance=ExtResource("3_olx31")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 37.1957, 0, 61.8859)
-
-[node name="LevelGrid9" parent="." instance=ExtResource("3_olx31")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 62.1957, 0, 61.8859)

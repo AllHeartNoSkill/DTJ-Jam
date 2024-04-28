@@ -6,7 +6,7 @@ const MOUSE_SENSITIVY = 0.01
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
-@onready var camera := $Neck/Camera3D
+@onready var camera := $Neck/PlayerCamera
 @onready var neck := $Neck
 @onready var player := $"."
 

@@ -8,6 +8,7 @@ using Array = Godot.Collections.Array;
 
 public partial class LevelGenerator : Node3D
 {
+	
 	[ExportGroup("Level Parameters")] 
 	[Export] private Vector2I _groundGridSize = new Vector2I();
 	[Export] private PackedScene _levelGridPrefab;
@@ -29,6 +30,11 @@ public partial class LevelGenerator : Node3D
 	[Export(PropertyHint.Layers3DPhysics)] private uint _miscObjectRayMask;
 	[Export] private bool _rotateMiscObject = false;
 
+	[ExportGroup("Point Generation")]
+	[Export] private int _photoPointCount = 5;
+	[Export] private float _playerHeight = 1.5f;
+	[Export(PropertyHint.Layers3DPhysics)] private uint _groundRayMask;
+
 	private Vector2 _regionSize = new Vector2();
 	private int[,] _levelGrid;
 	private float _gridCellSize;
@@ -38,11 +44,14 @@ public partial class LevelGenerator : Node3D
 	
 	private PhysicsDirectSpaceState3D _worldSpace;
 	private PhysicsRayQueryParameters3D _rayParams = new PhysicsRayQueryParameters3D();
+
+	private LevelScene _levelScene;
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		_worldSpace = GetWorld3D().DirectSpaceState;
+		_levelScene = GetParent<LevelScene>();
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -59,6 +68,8 @@ public partial class LevelGenerator : Node3D
 		GenerateBuilding();
 		await Task.Delay(1000);
 		GenerateMiscObject();
+		await Task.Delay(1000);
+		GenerateImportantPoints();
 	}
 
 	private void GenerateGround()
@@ -123,6 +134,140 @@ public partial class LevelGenerator : Node3D
 		PlaceObjects(objectsToSpawn, spawnedPoints, rotationList, _rotateMiscObject, _miscObjectRayMask);
 	}
 
+	private void GenerateImportantPoints()
+	{
+		List<Vector2> spawnedPoints = PoissonDiscSampling.GeneratePoints(
+			10f,
+			_regionSize,
+			30);
+		
+		var random = new RandomNumberGenerator();
+		random.Randomize();
+
+		Vector3 playerSpawnPosition = new Vector3();
+		List<Vector3> photoPositions = new List<Vector3>();
+		ChoosePlayerSpawnPosition();
+		ChoosePhotoPosition();
+
+		Node3D playerSpawnNode = new Node3D();
+		playerSpawnNode.Name = "Player Spawn Position Node";
+		_levelScene.SetPlayerPositionNode(playerSpawnNode);
+		playerSpawnNode.GlobalPosition = playerSpawnPosition;
+		
+		GeneratePhotoPosition();
+
+		void ChoosePlayerSpawnPosition()
+		{
+			foreach (var point in spawnedPoints)
+			{
+				if (TestPoint(point, out playerSpawnPosition))
+				{
+					GD.Print($"PlayerSpawnPosition: {playerSpawnPosition}");
+					spawnedPoints.Remove(point);
+					return;
+				}
+			}
+		}
+
+		void ChoosePhotoPosition()
+		{
+			for (int i = 0; i < _photoPointCount; i++)
+			{
+				bool foundOne = false;
+				int counter = 0;
+				while (!foundOne && counter < 10)
+				{
+					int chosenIndex = random.RandiRange(0, spawnedPoints.Count - 1);
+					if (TestPoint(spawnedPoints[chosenIndex], out Vector3 chosenPoint))
+					{
+						GD.Print($"Photo Position ke-{i}: {chosenPoint}");
+						photoPositions.Add(chosenPoint);
+						spawnedPoints.RemoveAt(chosenIndex);
+						foundOne = true;
+					}
+
+					counter += 1;
+				}
+			}
+		}
+
+		bool TestPoint(Vector2 point, out Vector3 worldPos)
+		{
+			Vector3 startRay = new Vector3(point.X, _skyHeight, point.Y);
+			Vector3 targetRay = new Vector3(point.X, -1f, point.Y);
+			_rayParams.From = startRay;
+			_rayParams.To = targetRay;
+			_rayParams.CollisionMask = _groundRayMask;
+			_rayParams.CollideWithBodies = true;
+			var result = _worldSpace.IntersectRay(_rayParams);
+			
+			if (result.Count == 0)
+			{
+				worldPos = Vector3.Zero;
+				return false;
+			}
+
+			worldPos = result["position"].AsVector3();
+			Node colliderOther = (Node)result["collider"].AsGodotObject();
+			
+			if (colliderOther.IsInGroup("Ground"))
+			{
+				return true;
+			}
+
+			return false;
+		}
+
+		void GeneratePhotoPosition()
+		{
+			for (int i = 0; i < photoPositions.Count; i++)
+			{
+				Node3D node = new Node3D();
+				node.Name = $"Photo Position {i}";
+				MissionSystem.Instance.SetPhotoPosition(node);
+				node.GlobalPosition = photoPositions[i] + (Vector3.Up * _playerHeight);
+				RotateToFarthestDirection(node);
+			}
+		}
+
+		void RotateToFarthestDirection(Node3D point)
+		{
+			float farthestDistance = -1f;
+			Vector3 lookDirection = new Vector3();
+			float angleIncrement = 10f;
+			for (int i = 0; i < 36; i++)
+			{
+				Vector3 startRay = point.Position;
+				Vector3 direction =
+					new Vector3(Mathf.Sin(angleIncrement * i), 0, Mathf.Cos(angleIncrement * i));
+				Vector3 targetRay = startRay + direction * _regionSize.X;
+				_rayParams.From = startRay;
+				_rayParams.To = targetRay;
+				_rayParams.CollisionMask = _groundRayMask;
+				_rayParams.CollideWithBodies = true;
+				var result = _worldSpace.IntersectRay(_rayParams);
+			
+				if (result.Count > 0)
+				{
+					Vector3 worldPos = result["position"].AsVector3();
+					float currDist = (worldPos - startRay).LengthSquared();
+					if (currDist > farthestDistance)
+					{
+						farthestDistance = currDist;
+						lookDirection = worldPos;
+					}
+				}
+				else
+				{
+					farthestDistance = _regionSize.X;
+					lookDirection = targetRay;
+				}
+			}
+			GD.Print($"{point.Name} Farthest distance: {farthestDistance} Look Direction: {lookDirection}");
+			point.LookAt(lookDirection, Vector3.Up);
+		}
+	}
+
 	private void PlaceObjects(List<LevelObject> objectsToSpawn, List<Vector2> spawnedPoints, List<Vector2> rotationList, bool rotateObject, uint collisionMask, bool collideWithBodies = true)
 	{
 		for (int i = 0; i < objectsToSpawn.Count; i++)
@@ -152,7 +297,6 @@ public partial class LevelGenerator : Node3D
 			{
 				Vector2 rotationVec = rotationList[i];
 				Vector3 lookVector = new Vector3(rotationVec.X, 0, rotationVec.Y);
-				GD.Print(objectPosition - lookVector);
 				levelObject.LookAt(lookVector + objectPosition, Vector3.Up);
 			}
 		}
