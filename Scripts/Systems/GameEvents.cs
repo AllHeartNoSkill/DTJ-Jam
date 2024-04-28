@@ -23,6 +23,15 @@ public partial class GameEvents : Node3D
 		OnEndGame?.Invoke();
 	}
 	
+	public event Action OnLevelLoaded;
+	[Signal]
+	public delegate void LevelLoadedSignalEventHandler();
+	public void LevelLoaded()
+	{
+		EmitSignal("LevelLoadedSignal");
+		OnLevelLoaded?.Invoke();
+	}
+	
 	public override void _Ready()
 	{
 		Instance = this;
