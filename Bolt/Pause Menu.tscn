@@ -56,12 +56,6 @@ layout_mode = 2
 size_flags_vertical = 3
 text = "Continue"
 
-[node name="Restart" type="Button" parent="PauseMenu/VFlowContainer"]
-clip_contents = true
-layout_mode = 2
-size_flags_vertical = 3
-text = "Restart"
-
 [node name="Quit" type="Button" parent="PauseMenu/VFlowContainer"]
 clip_contents = true
 layout_mode = 2
@@ -97,3 +91,19 @@ theme_override_font_sizes/normal_font_size = 25
 bbcode_enabled = true
 text = "[center]00:00[/center]"
 fit_content = true
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Timer"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -188.5
+offset_top = 2.0
+offset_right = 202.5
+offset_bottom = 54.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/normal_font_size = 12
+bbcode_enabled = true

@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://dga84r4u172kv"]
+[gd_scene load_steps=6 format=3 uid="uid://dga84r4u172kv"]
 
 [ext_resource type="Script" path="res://player.gd" id="1_cvbqo"]
 [ext_resource type="Script" path="res://Scripts/Players/CameraSystem.cs" id="2_3lbib"]
+[ext_resource type="PackedScene" uid="uid://vli0n5fwy2pp" path="res://Graphics/Models/allanim.tscn" id="2_rdmkc"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_wg4je"]
 
@@ -14,13 +15,20 @@ script = ExtResource("1_cvbqo")
 
 [node name="Body" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+layers = 8
 mesh = SubResource("CapsuleMesh_wg4je")
 
 [node name="Neck" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 
+[node name="all2" parent="Neck" instance=ExtResource("2_rdmkc")]
+transform = Transform3D(-0.2, 0, -3.01992e-08, 0, 0.2, 0, 3.01992e-08, 0, -0.2, 0, -0.299095, -0.816985)
+
 [node name="PlayerCamera" type="Camera3D" parent="Neck"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0765228, 0.505051)
+
+[node name="CameraPosRef" type="Node3D" parent="Neck"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0861437, 0.0965668)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -28,3 +36,12 @@ shape = SubResource("CapsuleShape3D_a5doo")
 
 [node name="CameraSystem" type="Node3D" parent="."]
 script = ExtResource("2_3lbib")
+
+[node name="CaptureViewport" type="SubViewport" parent="."]
+size = Vector2i(540, 360)
+render_target_update_mode = 4
+
+[node name="Camera3D" type="Camera3D" parent="CaptureViewport"]
+transform = Transform3D(1, 0, 0, 0, 0.890983, 0.454037, 0, -0.454037, 0.890983, 0, 3.19449, 2.80151)
+cull_mask = 1048567
+near = 1.072

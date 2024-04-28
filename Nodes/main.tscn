@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://ctv6kphgoj8kt"]
+[gd_scene load_steps=20 format=3 uid="uid://ctv6kphgoj8kt"]
 
 [ext_resource type="PackedScene" uid="uid://ddfy3x6e4t4le" path="res://Bolt/PicturesMenu.tscn" id="1_qyfd1"]
 [ext_resource type="PackedScene" uid="uid://bbe84tcbewwqq" path="res://Nodes/Levels/LevelScene.tscn" id="1_w564k"]
@@ -38,6 +38,23 @@ glow_enabled = true
 glow_strength = 0.64
 adjustment_enabled = true
 adjustment_color_correction = SubResource("GradientTexture1D_o085t")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_76oam"]
+viewport_path = NodePath("Player/Neck/CaptureViewport")
+
+[sub_resource type="BoxMesh" id="BoxMesh_bx5kv"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xp43m"]
+albedo_color = Color(0.358492, 0.619083, 0.0699052, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_y4ch4"]
+albedo_color = Color(1, 0.0920466, 0.328471, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kx0eu"]
+albedo_color = Color(2.88785e-07, 0.413075, 0.675577, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lxmw2"]
+albedo_color = Color(0.946723, 0.60604, 0.929457, 1)
 
 [node name="Main" type="Node3D"]
 
@@ -114,8 +131,7 @@ text_overrun_behavior = 1
 
 [node name="MissionSystem" type="Node3D" parent="."]
 script = ExtResource("3_3jxuk")
-_distanceTolerance = 3.0
-_angleTolerance = 10.0
+_distanceTolerance = 7.0
 
 [node name="GameEvents" type="Node3D" parent="."]
 script = ExtResource("4_xuo65")
@@ -136,14 +152,46 @@ process_mode = 4
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.4655, 0)
 
 [node name="SubViewport" type="SubViewport" parent="."]
-size = Vector2i(512, 256)
+size = Vector2i(540, 360)
 render_target_update_mode = 4
 script = ExtResource("7_akpp1")
 
 [node name="TextureCamera" type="Camera3D" parent="SubViewport"]
 
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 12.3736, 9.75066, 6.43605)
+texture = SubResource("ViewportTexture_76oam")
+
+[node name="Pillars" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Pillars"]
+transform = Transform3D(3, 0, 0, 0, 50, 0, 0, 0, 3, 0, 0, 0)
+mesh = SubResource("BoxMesh_bx5kv")
+surface_material_override/0 = SubResource("StandardMaterial3D_xp43m")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Pillars"]
+transform = Transform3D(3, 0, 0, 0, 50, 0, 0, 0, 3, 0, 0, 75.0258)
+mesh = SubResource("BoxMesh_bx5kv")
+surface_material_override/0 = SubResource("StandardMaterial3D_y4ch4")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Pillars"]
+transform = Transform3D(3, 0, 0, 0, 50, 0, 0, 0, 3, 74.6465, 0, 75.0258)
+mesh = SubResource("BoxMesh_bx5kv")
+surface_material_override/0 = SubResource("StandardMaterial3D_kx0eu")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="Pillars"]
+transform = Transform3D(3, 0, 0, 0, 50, 0, 0, 0, 3, 74.6465, 0, 0.886024)
+mesh = SubResource("BoxMesh_bx5kv")
+surface_material_override/0 = SubResource("StandardMaterial3D_lxmw2")
+
+[connection signal="pressed" from="PauseMenu/PauseMenu/VFlowContainer/Restart" to="Menu" method="OnRestartButtonPressed"]
+[connection signal="pressed" from="PauseMenu/PauseMenu/VFlowContainer/Quit" to="Menu" method="OnQuitButtonPressed"]
 [connection signal="pressed" from="Menu/MainMenu/Play" to="Menu" method="OnPlayButtonPressed"]
 [connection signal="pressed" from="Menu/MainMenu/Quit" to="Menu" method="OnQuitButtonPressed"]
 [connection signal="pressed" from="Menu/RestartMenu/Restart" to="Menu" method="OnRestartButtonPressed"]
 [connection signal="pressed" from="Menu/RestartMenu/Quit" to="Menu" method="OnQuitButtonPressed"]
+[connection signal="MissionCompleteSignal" from="GameEvents" to="PicturesMenu" method="_on_game_events_mission_complete_signal"]
 [connection signal="StartGameSignal" from="GameEvents" to="PauseMenu" method="_on_game_events_start_game_signal"]
+
+[editable path="PauseMenu"]
+[editable path="Player"]

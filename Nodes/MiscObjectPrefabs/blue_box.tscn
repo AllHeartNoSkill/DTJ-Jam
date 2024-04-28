@@ -2,11 +2,11 @@
 
 [ext_resource type="Script" path="res://Scripts/Levels/LevelObject.cs" id="1_3spks"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jsp8w"]
-albedo_color = Color(0, 0, 1, 1)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h64ek"]
+albedo_color = Color(0.825684, 0.505763, 0.883133, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_cp5e0"]
-material = SubResource("StandardMaterial3D_jsp8w")
+material = SubResource("StandardMaterial3D_h64ek")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_1ijxn"]
 
