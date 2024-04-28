@@ -1,5 +1,6 @@
-[gd_scene load_steps=13 format=3 uid="uid://ctv6kphgoj8kt"]
+[gd_scene load_steps=14 format=3 uid="uid://ctv6kphgoj8kt"]
 
+[ext_resource type="PackedScene" uid="uid://ddfy3x6e4t4le" path="res://Bolt/PicturesMenu.tscn" id="1_qyfd1"]
 [ext_resource type="PackedScene" uid="uid://bbe84tcbewwqq" path="res://Nodes/Levels/LevelScene.tscn" id="1_w564k"]
 [ext_resource type="PackedScene" uid="uid://dga84r4u172kv" path="res://player.tscn" id="2_0told"]
 [ext_resource type="Script" path="res://Scripts/UI/MainMenu.cs" id="2_83172"]
@@ -39,6 +40,9 @@ adjustment_enabled = true
 adjustment_color_correction = SubResource("GradientTexture1D_o085t")
 
 [node name="Main" type="Node3D"]
+
+[node name="PicturesMenu" parent="." instance=ExtResource("1_qyfd1")]
+visible = false
 
 [node name="PauseMenu" parent="." instance=ExtResource("4_a3a08")]
 

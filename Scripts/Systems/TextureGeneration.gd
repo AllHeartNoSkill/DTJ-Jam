@@ -1,6 +1,7 @@
 extends SubViewport
 
 var mission_system: Node3D
+signal generate_texture_signal()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -44,3 +45,6 @@ func _capture_multiple():
 		var point: Node3D = mission_system.get_node("Photo Position "+ str(i))
 		_capture_image(point, i)
 		await get_tree().create_timer(0.5).timeout
+	
+	await get_tree().create_timer(0.5).timeout
+	generate_texture_signal.emit()
