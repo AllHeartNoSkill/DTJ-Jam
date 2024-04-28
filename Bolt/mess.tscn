@@ -1,0 +1,69 @@
+[gd_scene load_steps=13 format=3 uid="uid://c8brehlnis31y"]
+
+[ext_resource type="Script" path="res://Scripts/Levels/LevelScene.cs" id="1_b7vbt"]
+[ext_resource type="Script" path="res://Scripts/Levels/LevelGenerator.cs" id="2_72mmu"]
+[ext_resource type="PackedScene" uid="uid://cml57dykp2jew" path="res://Nodes/Levels/LevelGrid.tscn" id="3_yp0s1"]
+[ext_resource type="Resource" uid="uid://ba4gqf7hkq7vm" path="res://ScriptableResources/BuildingDatas/BuildingA.tres" id="4_b4klc"]
+[ext_resource type="Resource" uid="uid://dph42dublm62e" path="res://ScriptableResources/BuildingDatas/BuildingB.tres" id="5_vhw11"]
+[ext_resource type="Resource" uid="uid://b5rquhw4xtwif" path="res://ScriptableResources/BuildingDatas/BuildingC.tres" id="6_yxeeh"]
+[ext_resource type="Script" path="res://player.gd" id="7_b664n"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hq6no"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_s7qtu"]
+material = SubResource("StandardMaterial3D_hq6no")
+size = Vector3(1, 50, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_wg4je"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_a5doo"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_gp1s7"]
+
+[node name="Mess" type="Node3D"]
+
+[node name="LevelScene" type="Node3D" parent="." node_paths=PackedStringArray("_levelGenerator", "_levelPivot")]
+script = ExtResource("1_b7vbt")
+_levelGenerator = NodePath("LevelGenerator")
+_levelPivot = NodePath("LevelPivot")
+
+[node name="LevelGenerator" type="Node3D" parent="LevelScene" node_paths=PackedStringArray("_temporaryPoint")]
+script = ExtResource("2_72mmu")
+_groundGridSize = Vector2i(3, 3)
+_levelGridPrefab = ExtResource("3_yp0s1")
+_levelGridSize = Vector2i(75, 75)
+_buildingRadiusMultiplier = 2.0
+_temporaryPoint = NodePath("../MeshInstance3D")
+_buildingPrefabs = [ExtResource("4_b4klc"), ExtResource("5_vhw11"), ExtResource("6_yxeeh")]
+
+[node name="LevelPivot" type="Node3D" parent="LevelScene"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="LevelScene"]
+transform = Transform3D(0.871933, -0.472942, 0.126725, 0, 0.258819, 0.965926, -0.489626, -0.842222, 0.225673, 0, 90.5132, 0)
+shadow_enabled = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="LevelScene"]
+mesh = SubResource("BoxMesh_s7qtu")
+
+[node name="Player" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.6148, 4.57737, 8.90131)
+script = ExtResource("7_b664n")
+
+[node name="Shape" type="MeshInstance3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.410849, -0.0048126)
+mesh = SubResource("CapsuleMesh_wg4je")
+
+[node name="Neck" type="Node3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.002446)
+
+[node name="PlayerCamera" type="Camera3D" parent="Player/Neck"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0765228, 0.505051)
+
+[node name="Collider" type="CollisionShape3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.410849, -0.0048126)
+shape = SubResource("CapsuleShape3D_a5doo")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(100, 0, 0, 0, 1, 0, 0, 0, 100, -1.14552, -1.28681, 0)
+shape = SubResource("BoxShape3D_gp1s7")
