@@ -20,7 +20,10 @@ func _input(event):
 			neck.rotate_x(-event.relative.y * MOUSE_SENSITIVY)
 			player.rotate_y(-event.relative.x * MOUSE_SENSITIVY)
 			neck.rotation.x = clamp(neck.rotation.x, deg_to_rad(-30), deg_to_rad(60))
-	
+
+func _exit_tree():
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+
 func _physics_process(delta):
 	# Add the gravity.
 	if not is_on_floor():
