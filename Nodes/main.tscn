@@ -121,7 +121,7 @@ _angleTolerance = 10.0
 script = ExtResource("4_xuo65")
 
 [node name="DirectionalLight3D2" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.871933, -0.472942, 0.126725, 0, 0.258819, 0.965926, -0.489626, -0.842222, 0.225673, 0, 90.5132, 0)
+transform = Transform3D(0.425128, -0.456563, -0.781547, 0.76127, -0.286726, 0.581598, -0.489626, -0.842222, 0.225673, 0, 90.5132, 0)
 light_energy = 3.0
 shadow_enabled = true
 

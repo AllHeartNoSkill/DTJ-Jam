@@ -34,8 +34,7 @@ func _generate_texture(suffix):
 func _capture_image(point: Node3D, suffix: int=0):
 	var camera = get_node("TextureCamera")
 	camera.set_position(point.get_position())
-	camera.set_rotation(point.get_rotation_degrees())
-	print("camera pos", camera.get_position(), "rotation", camera.get_rotation())
+	camera.set_rotation(point.get_rotation())
 	await get_tree().create_timer(0.1).timeout
 	_generate_texture(suffix)
 
