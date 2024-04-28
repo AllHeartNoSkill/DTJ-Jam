@@ -7,6 +7,7 @@
 [ext_resource type="Resource" uid="uid://dph42dublm62e" path="res://ScriptableResources/BuildingDatas/BuildingB.tres" id="5_vhw11"]
 [ext_resource type="Resource" uid="uid://b5rquhw4xtwif" path="res://ScriptableResources/BuildingDatas/BuildingC.tres" id="6_yxeeh"]
 [ext_resource type="Script" path="res://player.gd" id="7_b664n"]
+[ext_resource type="PackedScene" uid="uid://c2aahriupohq7" path="res://Bolt/Pause Menu.tscn" id="8_o0e7l"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hq6no"]
 albedo_color = Color(1, 0, 0, 1)
@@ -18,8 +19,6 @@ size = Vector3(1, 50, 1)
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_wg4je"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_a5doo"]
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_gp1s7"]
 
 [node name="Mess" type="Node3D"]
 
@@ -64,6 +63,4 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0765228, 0.505051)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.410849, -0.0048126)
 shape = SubResource("CapsuleShape3D_a5doo")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(100, 0, 0, 0, 1, 0, 0, 0, 100, -1.14552, -1.28681, 0)
-shape = SubResource("BoxShape3D_gp1s7")
+[node name="UI" parent="." instance=ExtResource("8_o0e7l")]

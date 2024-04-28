@@ -12,7 +12,7 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	if Input.is_action_just_pressed("pause"):
+	if Input.is_action_just_pressed("escape"):
 		if _is_paused:
 			_continue()
 		else:
