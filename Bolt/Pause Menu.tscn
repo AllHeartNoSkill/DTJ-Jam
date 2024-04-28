@@ -56,12 +56,6 @@ layout_mode = 2
 size_flags_vertical = 3
 text = "Continue"
 
-[node name="Restart" type="Button" parent="PauseMenu/VFlowContainer"]
-clip_contents = true
-layout_mode = 2
-size_flags_vertical = 3
-text = "Restart"
-
 [node name="Quit" type="Button" parent="PauseMenu/VFlowContainer"]
 clip_contents = true
 layout_mode = 2
