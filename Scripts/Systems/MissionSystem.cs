@@ -32,26 +32,33 @@ public partial class MissionSystem : Node3D
 
 	public void CheckMission(Node3D playerNode)
 	{
+		int chosenIndex = 0;
 		Node3D closestNode = GetClosestPointNode(out float closestDistance);
 		float angleDiff = GetAngleDifference();
+		
 		GD.Print($"Closes Distance {closestDistance} : angle diff {angleDiff}");
 		if (CheckIfComplete())
 		{
-			CompleteMission(closestNode);
+			CompleteMission(closestNode, chosenIndex);
 		}
 		
 		Node3D GetClosestPointNode(out float distance)
 		{
 			float smallestDistance = Mathf.Inf;
 			Node3D chosenNode = PhotoPoints[0];
+			int counter = 0;
 			foreach (var point in PhotoPoints)
 			{
+				if(!point.Visible) continue;
 				float dist = (point.GlobalPosition - playerNode.GlobalPosition).LengthSquared();
 				if (dist < smallestDistance)
 				{
 					chosenNode = point;
+					chosenIndex = counter;
 					smallestDistance = dist;
 				}
+
+				counter += 1;
 			}
 
 			distance = smallestDistance;
@@ -69,10 +76,11 @@ public partial class MissionSystem : Node3D
 		}
 	}
 
-	private void CompleteMission(Node3D missionNode)
+	private void CompleteMission(Node3D missionNode, int index)
 	{
-		GD.Print($"Mission Complete On {missionNode.Name}");
-		PhotoPoints.Remove(missionNode);
+		GD.Print($"Mission Complete On {missionNode.Name} index {index}");
+		missionNode.Hide();
+		GameEvents.Instance.MissionComplete(index);
 
 		if (PhotoPoints.Count == 0)
 		{

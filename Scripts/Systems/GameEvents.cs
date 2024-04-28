@@ -32,6 +32,15 @@ public partial class GameEvents : Node3D
 		OnLevelLoaded?.Invoke();
 	}
 	
+	public event Action<int> OnMissionComplete;
+	[Signal]
+	public delegate void MissionCompleteSignalEventHandler(int index);
+	public void MissionComplete(int index)
+	{
+		EmitSignal("MissionCompleteSignal", index);
+		OnMissionComplete?.Invoke(index);
+	}
+	
 	public override void _Ready()
 	{
 		Instance = this;
