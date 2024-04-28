@@ -59,7 +59,7 @@ public partial class LevelGenerator : Node3D
 	{
 	}
 
-	public async void GenerateLevel(Node3D levelPivot)
+	public async Task GenerateLevel(Node3D levelPivot)
 	{
 		_levelPivot = levelPivot;
 		
@@ -70,6 +70,8 @@ public partial class LevelGenerator : Node3D
 		GenerateMiscObject();
 		await Task.Delay(1000);
 		GenerateImportantPoints();
+
+		GameEvents.Instance.LevelLoaded();
 	}
 
 	private void GenerateGround()

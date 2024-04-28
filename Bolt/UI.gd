@@ -2,13 +2,15 @@ extends Control
 
 var _is_paused = false
 var _pause_menu: Control
+var _timer: Control
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	%Continue.pressed.connect(_on_continue_pressed)
 	_pause_menu = get_node("PauseMenu")
 	_pause_menu.hide()
-	pass # Replace with function body.
+	_timer = get_node("Timer")
+	print("READY")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -17,7 +19,6 @@ func _process(delta):
 			_continue()
 		else:
 			_pause()
-	pass
 
 func _pause():
 	get_tree().paused = true
@@ -31,3 +32,9 @@ func _continue():
 
 func _on_continue_pressed():
 	_continue()
+	print("Continue")
+	
+func _on_game_events_start_game_signal():
+	_timer.show()
+	_timer.start_round()
+	
