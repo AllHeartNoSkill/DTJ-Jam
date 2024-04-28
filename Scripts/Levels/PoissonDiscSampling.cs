@@ -6,7 +6,8 @@ namespace DTJJam.Scripts.Levels;
 
 public static class PoissonDiscSampling
 {
-    public static List<Vector2> GeneratePoints(float radius, Vector2 sampleRegionSize, int numSamplesBeforeRejection = 30) {
+    public static List<Vector2> GeneratePoints(float radius, Vector2 sampleRegionSize, int numSamplesBeforeRejection = 30) 
+    {
 	    var random = new RandomNumberGenerator();
 	    random.Randomize();
 	    
@@ -16,7 +17,8 @@ public static class PoissonDiscSampling
 		List<Vector2> points = new List<Vector2>();
 		List<Vector2> spawnPoints = new List<Vector2> { sampleRegionSize/2 };
 
-		while (spawnPoints.Count > 0) {
+		while (spawnPoints.Count > 0) 
+		{
 			int spawnIndex = random.RandiRange(0,spawnPoints.Count - 1);
 			Vector2 spawnCentre = spawnPoints[spawnIndex];
 			bool candidateAccepted = false;
@@ -26,7 +28,8 @@ public static class PoissonDiscSampling
 				float angle = random.Randf() * Mathf.Pi * 2;
 				Vector2 dir = new Vector2(Mathf.Sin(angle), Mathf.Cos(angle));
 				Vector2 candidate = spawnCentre + dir * random.RandfRange(radius, 2*radius);
-				if (IsValid(candidate, sampleRegionSize, cellSize, radius, points, grid)) {
+				if (IsValid(candidate, sampleRegionSize, cellSize, radius, points, grid)) 
+				{
 					points.Add(candidate);
 					spawnPoints.Add(candidate);
 					grid[(int)(candidate.X/cellSize),(int)(candidate.Y/cellSize)] = points.Count;
@@ -34,7 +37,8 @@ public static class PoissonDiscSampling
 					break;
 				}
 			}
-			if (!candidateAccepted) {
+			if (!candidateAccepted) 
+			{
 				spawnPoints.RemoveAt(spawnIndex);
 			}
 		}
@@ -42,8 +46,10 @@ public static class PoissonDiscSampling
 		return points;
 	}
 
-	static bool IsValid(Vector2 candidate, Vector2 sampleRegionSize, float cellSize, float radius, List<Vector2> points, int[,] grid) {
-		if (candidate.X >=0 && candidate.X < sampleRegionSize.X && candidate.Y >= 0 && candidate.Y < sampleRegionSize.Y) {
+	static bool IsValid(Vector2 candidate, Vector2 sampleRegionSize, float cellSize, float radius, List<Vector2> points, int[,] grid) 
+	{
+		if (candidate.X >=0 && candidate.X < sampleRegionSize.X && candidate.Y >= 0 && candidate.Y < sampleRegionSize.Y) 
+		{
 			int cellX = (int)(candidate.X / cellSize);
 			int cellY = (int)(candidate.Y / cellSize);
 			int searchRadius = Mathf.CeilToInt(radius / cellSize);
@@ -52,12 +58,16 @@ public static class PoissonDiscSampling
 			int searchStartY = Mathf.Max(0,cellY - searchRadius);
 			int searchEndY = Mathf.Min(cellY + searchRadius,grid.GetLength(1) - 1);
 
-			for (int x = searchStartX; x <= searchEndX; x++) {
-				for (int y = searchStartY; y <= searchEndY; y++) {
+			for (int x = searchStartX; x <= searchEndX; x++) 
+			{
+				for (int y = searchStartY; y <= searchEndY; y++) 
+				{
 					int pointIndex = grid[x, y] - 1;
-					if (pointIndex != - 1) {
+					if (pointIndex != - 1) 
+					{
 						float sqrDst = (candidate - points[pointIndex]).LengthSquared();
-						if (sqrDst < radius * radius) {
+						if (sqrDst < radius * radius) 
+						{
 							return false;
 						}
 					}
@@ -68,16 +78,18 @@ public static class PoissonDiscSampling
 		return false;
 	}
 	
-	public static Godot.Collections.Dictionary<LevelObject, Vector2> GenerateLevelObjects(Array<LevelObjectData> levelObjects, Vector2 sampleRegionSize, int[,] grid, float cellSize, float radiusMultiplier, int numSamplesBeforeRejection = 30) {
+	public static List<Vector2> GenerateLevelObjects(Array<LevelObjectData> levelObjects, Vector2 sampleRegionSize, int[,] grid, float cellSize, float radiusMultiplier, int numSamplesBeforeRejection, out List<LevelObject> spawnedLevelObjects, out List<Vector2> rotationLists) 
+	{
 		var random = new RandomNumberGenerator();
 		random.Randomize();
 
 		List<Vector2> points = new List<Vector2>();
 		List<Vector2> spawnPoints = new List<Vector2> { sampleRegionSize / 2 };
-		Godot.Collections.Dictionary<LevelObject, Vector2> spawnedLevelObjects =
-			new Godot.Collections.Dictionary<LevelObject, Vector2>();
+		spawnedLevelObjects = new List<LevelObject>();
+		rotationLists = new List<Vector2>();
 
-		while (spawnPoints.Count > 0) {
+		while (spawnPoints.Count > 0) 
+		{
 			int spawnIndex = random.RandiRange(0,spawnPoints.Count - 1);
 			Vector2 spawnCentre = spawnPoints[spawnIndex];
 			bool candidateAccepted = false;
@@ -90,22 +102,25 @@ public static class PoissonDiscSampling
 				float angle = random.Randf() * Mathf.Pi * 2;
 				Vector2 dir = new Vector2(Mathf.Sin(angle), Mathf.Cos(angle));
 				Vector2 candidate = spawnCentre + dir * random.RandfRange(chosenObjectData.ObjectGridSize * radiusMultiplier, 2 * chosenObjectData.ObjectGridSize * radiusMultiplier);
-				if (IsValid(candidate, sampleRegionSize, cellSize, chosenObjectData.ObjectGridSize * radiusMultiplier, points, grid)) {
+				if (IsValid(candidate, sampleRegionSize, cellSize, chosenObjectData.ObjectGridSize * radiusMultiplier, points, grid)) 
+				{
 					points.Add(candidate);
 					spawnPoints.Add(candidate);
+					rotationLists.Add(dir);
 					LevelObject spawnedObject = (LevelObject)chosenObjectData.LevelObjectPrefab.Instantiate();
-					spawnedLevelObjects.Add(spawnedObject, candidate);
+					spawnedLevelObjects.Add(spawnedObject);
 					
 					grid[(int)(candidate.X / cellSize),(int)(candidate.Y / cellSize)] = points.Count;
 					candidateAccepted = true;
 					break;
 				}
 			}
-			if (!candidateAccepted) {
+			if (!candidateAccepted) 
+			{
 				spawnPoints.RemoveAt(spawnIndex);
 			}
 		}
 
-		return spawnedLevelObjects;
+		return points;
 	}
 }

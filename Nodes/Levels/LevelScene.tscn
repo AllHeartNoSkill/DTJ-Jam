@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bbe84tcbewwqq"]
+[gd_scene load_steps=10 format=3 uid="uid://bbe84tcbewwqq"]
 
 [ext_resource type="Script" path="res://Scripts/Levels/LevelScene.cs" id="1_tn2fm"]
 [ext_resource type="Script" path="res://Scripts/Levels/LevelGenerator.cs" id="2_nypkv"]
@@ -6,37 +6,27 @@
 [ext_resource type="Resource" uid="uid://ba4gqf7hkq7vm" path="res://ScriptableResources/BuildingDatas/BuildingA.tres" id="4_tjuwo"]
 [ext_resource type="Resource" uid="uid://dph42dublm62e" path="res://ScriptableResources/BuildingDatas/BuildingB.tres" id="5_def73"]
 [ext_resource type="Resource" uid="uid://b5rquhw4xtwif" path="res://ScriptableResources/BuildingDatas/BuildingC.tres" id="6_38osx"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hq6no"]
-albedo_color = Color(1, 0, 0, 1)
-
-[sub_resource type="BoxMesh" id="BoxMesh_s7qtu"]
-material = SubResource("StandardMaterial3D_hq6no")
-size = Vector3(1, 50, 1)
+[ext_resource type="Resource" uid="uid://cojo524ffcp5l" path="res://ScriptableResources/MiscObjectsData/BlueBox.tres" id="7_6p2ds"]
+[ext_resource type="Resource" uid="uid://b2ielhc0ifp6n" path="res://ScriptableResources/MiscObjectsData/GreenBox.tres" id="8_70hby"]
+[ext_resource type="Resource" uid="uid://b584vey6cgso8" path="res://ScriptableResources/MiscObjectsData/RedBox.tres" id="9_4tsc8"]
 
 [node name="LevelScene" type="Node3D" node_paths=PackedStringArray("_levelGenerator", "_levelPivot")]
 script = ExtResource("1_tn2fm")
 _levelGenerator = NodePath("LevelGenerator")
 _levelPivot = NodePath("LevelPivot")
 
-[node name="LevelGenerator" type="Node3D" parent="." node_paths=PackedStringArray("_temporaryPoint")]
+[node name="LevelGenerator" type="Node3D" parent="."]
 script = ExtResource("2_nypkv")
 _groundGridSize = Vector2i(3, 3)
 _levelGridPrefab = ExtResource("3_olx31")
 _levelGridSize = Vector2i(75, 75)
-_buildingRadiusMultiplier = 2.0
-_temporaryPoint = NodePath("../MeshInstance3D")
-_buildingPrefabs = [ExtResource("4_tjuwo"), ExtResource("5_def73"), ExtResource("6_38osx")]
+_buildingRadiusMultiplier = 2.5
+_buildingDatas = [ExtResource("4_tjuwo"), ExtResource("5_def73"), ExtResource("6_38osx")]
+_buildingRayMask = 1
+_rotateBuilding = true
+_miscObjectDatas = [ExtResource("7_6p2ds"), ExtResource("8_70hby"), ExtResource("9_4tsc8")]
+_miscObjectRayMask = 3
+_rotateMiscObject = true
+_groundRayMask = 3
 
 [node name="LevelPivot" type="Node3D" parent="."]
-
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.365364, 0.930865, 0, -0.930865, 0.365364, 34.4825, 84.6739, 73.7716)
-fov = 54.5
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.871933, -0.472942, 0.126725, 0, 0.258819, 0.965926, -0.489626, -0.842222, 0.225673, 0, 90.5132, 0)
-shadow_enabled = true
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-mesh = SubResource("BoxMesh_s7qtu")

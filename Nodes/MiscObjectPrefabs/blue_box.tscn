@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3 uid="uid://2kyruhqvk8mw"]
+
+[ext_resource type="Script" path="res://Scripts/Levels/LevelObject.cs" id="1_3spks"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jsp8w"]
+albedo_color = Color(0, 0, 1, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_cp5e0"]
+material = SubResource("StandardMaterial3D_jsp8w")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_1ijxn"]
+
+[node name="BlueBox" type="StaticBody3D"]
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("1_3spks")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("BoxMesh_cp5e0")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("BoxShape3D_1ijxn")

@@ -9,6 +9,8 @@ size = Vector3(2, 5, 2)
 size = Vector3(2, 5, 2)
 
 [node name="BuildingA" type="StaticBody3D"]
+collision_layer = 2
+collision_mask = 5
 script = ExtResource("1_n7haj")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
