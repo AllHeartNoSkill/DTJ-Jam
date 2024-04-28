@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://ctv6kphgoj8kt"]
+[gd_scene load_steps=5 format=3 uid="uid://ctv6kphgoj8kt"]
 
 [ext_resource type="PackedScene" uid="uid://bbe84tcbewwqq" path="res://Nodes/Levels/LevelScene.tscn" id="1_w564k"]
 [ext_resource type="PackedScene" uid="uid://dga84r4u172kv" path="res://player.tscn" id="2_0told"]
 [ext_resource type="Script" path="res://Scripts/Systems/MissionSystem.cs" id="3_3jxuk"]
+[ext_resource type="PackedScene" path="res://Bolt/Pause Menu.tscn" id="4_a3a08"]
 
 [node name="Main" type="Node3D"]
 
@@ -19,3 +20,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
 script = ExtResource("3_3jxuk")
 _distanceTolerance = 2.5
 _angleTolerance = 5.0
+
+[node name="UI" parent="." instance=ExtResource("4_a3a08")]
