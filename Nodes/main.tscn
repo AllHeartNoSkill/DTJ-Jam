@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://ctv6kphgoj8kt"]
+[gd_scene load_steps=15 format=3 uid="uid://ctv6kphgoj8kt"]
 
 [ext_resource type="PackedScene" uid="uid://ddfy3x6e4t4le" path="res://Bolt/PicturesMenu.tscn" id="1_qyfd1"]
 [ext_resource type="PackedScene" uid="uid://bbe84tcbewwqq" path="res://Nodes/Levels/LevelScene.tscn" id="1_w564k"]
@@ -38,6 +38,9 @@ glow_enabled = true
 glow_strength = 0.64
 adjustment_enabled = true
 adjustment_color_correction = SubResource("GradientTexture1D_o085t")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_76oam"]
+viewport_path = NodePath("Player/Neck/CaptureViewport")
 
 [node name="Main" type="Node3D"]
 
@@ -136,14 +139,20 @@ process_mode = 4
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.4655, 0)
 
 [node name="SubViewport" type="SubViewport" parent="."]
-size = Vector2i(512, 256)
+size = Vector2i(540, 360)
 render_target_update_mode = 4
 script = ExtResource("7_akpp1")
 
 [node name="TextureCamera" type="Camera3D" parent="SubViewport"]
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 12.3736, 9.75066, 6.43605)
+texture = SubResource("ViewportTexture_76oam")
 
 [connection signal="pressed" from="Menu/MainMenu/Play" to="Menu" method="OnPlayButtonPressed"]
 [connection signal="pressed" from="Menu/MainMenu/Quit" to="Menu" method="OnQuitButtonPressed"]
 [connection signal="pressed" from="Menu/RestartMenu/Restart" to="Menu" method="OnRestartButtonPressed"]
 [connection signal="pressed" from="Menu/RestartMenu/Quit" to="Menu" method="OnQuitButtonPressed"]
 [connection signal="StartGameSignal" from="GameEvents" to="PauseMenu" method="_on_game_events_start_game_signal"]
+
+[editable path="Player"]
