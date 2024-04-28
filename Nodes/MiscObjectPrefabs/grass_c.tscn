@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://bg08auy6psmef"]
+
+[ext_resource type="Script" path="res://Scripts/Levels/LevelObject.cs" id="1_3te78"]
+[ext_resource type="PackedScene" uid="uid://baa5h1g4fx3im" path="res://ObjectModels/Miscs/grass_leafsLarge.glb" id="2_ucnfw"]
+
+[node name="GrassC" type="Node3D"]
+script = ExtResource("1_3te78")
+
+[node name="grass_leafsLarge2" parent="." instance=ExtResource("2_ucnfw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0482047, 0)

@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://cw1xconswa6r5"]
+
+[ext_resource type="Script" path="res://Scripts/Levels/LevelObject.cs" id="1_n5vuh"]
+[ext_resource type="PackedScene" uid="uid://058onor0mbpr" path="res://ObjectModels/Miscs/rock_smallFlatA.glb" id="2_t8loc"]
+
+[node name="RockA" type="Node3D"]
+script = ExtResource("1_n5vuh")
+
+[node name="rock_smallFlatA2" parent="." instance=ExtResource("2_t8loc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.054306, 0)

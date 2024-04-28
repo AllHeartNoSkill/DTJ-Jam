@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://da6y7fgmk52b4"]
+
+[ext_resource type="Script" path="res://Scripts/Levels/LevelObject.cs" id="1_vrcir"]
+[ext_resource type="PackedScene" uid="uid://bk5xir62xgyy5" path="res://ObjectModels/Miscs/rock_smallFlatC.glb" id="2_p6tym"]
+
+[node name="RockB" type="Node3D"]
+script = ExtResource("1_vrcir")
+
+[node name="rock_smallFlatC2" parent="." instance=ExtResource("2_p6tym")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0484839, 0)

@@ -1,0 +1,9 @@
+[gd_resource type="Resource" load_steps=3 format=3 uid="uid://c34gqrkjqvnrc"]
+
+[ext_resource type="PackedScene" uid="uid://ch31atmu55am" path="res://Nodes/MiscObjectPrefabs/rock_c.tscn" id="1_gihgc"]
+[ext_resource type="Script" path="res://Scripts/Levels/LevelObjectData.cs" id="2_jq721"]
+
+[resource]
+script = ExtResource("2_jq721")
+ObjectGridSize = 1.0
+LevelObjectPrefab = ExtResource("1_gihgc")

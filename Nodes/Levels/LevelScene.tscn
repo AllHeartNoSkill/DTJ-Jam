@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bbe84tcbewwqq"]
+[gd_scene load_steps=18 format=3 uid="uid://bbe84tcbewwqq"]
 
 [ext_resource type="Script" path="res://Scripts/Levels/LevelScene.cs" id="1_tn2fm"]
 [ext_resource type="Script" path="res://Scripts/Levels/LevelGenerator.cs" id="2_nypkv"]
@@ -6,9 +6,15 @@
 [ext_resource type="Resource" uid="uid://ba4gqf7hkq7vm" path="res://ScriptableResources/BuildingDatas/BuildingA.tres" id="4_tjuwo"]
 [ext_resource type="Resource" uid="uid://dph42dublm62e" path="res://ScriptableResources/BuildingDatas/BuildingB.tres" id="5_def73"]
 [ext_resource type="Resource" uid="uid://b5rquhw4xtwif" path="res://ScriptableResources/BuildingDatas/BuildingC.tres" id="6_38osx"]
-[ext_resource type="Resource" uid="uid://cojo524ffcp5l" path="res://ScriptableResources/MiscObjectsData/BlueBox.tres" id="7_6p2ds"]
-[ext_resource type="Resource" uid="uid://b2ielhc0ifp6n" path="res://ScriptableResources/MiscObjectsData/GreenBox.tres" id="8_70hby"]
-[ext_resource type="Resource" uid="uid://b584vey6cgso8" path="res://ScriptableResources/MiscObjectsData/RedBox.tres" id="9_4tsc8"]
+[ext_resource type="Resource" uid="uid://p6j0nlin2vqd" path="res://ScriptableResources/MiscObjectsData/FlowerA.tres" id="7_ieokb"]
+[ext_resource type="Resource" uid="uid://c65cwv84ofktk" path="res://ScriptableResources/MiscObjectsData/FlowerB.tres" id="8_5gq81"]
+[ext_resource type="Resource" uid="uid://7jb5ftmqcuv3" path="res://ScriptableResources/MiscObjectsData/FlowerC.tres" id="9_7cqee"]
+[ext_resource type="Resource" uid="uid://cvgbsj42igogj" path="res://ScriptableResources/MiscObjectsData/GrassA.tres" id="10_3t5mp"]
+[ext_resource type="Resource" uid="uid://bd4eck2cdtjfd" path="res://ScriptableResources/MiscObjectsData/GrassB.tres" id="11_gg1n8"]
+[ext_resource type="Resource" uid="uid://d0pliq1o0044m" path="res://ScriptableResources/MiscObjectsData/GrassC.tres" id="12_7v7mn"]
+[ext_resource type="Resource" uid="uid://btkrnpi1d532r" path="res://ScriptableResources/MiscObjectsData/RockA.tres" id="13_h5jp0"]
+[ext_resource type="Resource" uid="uid://dy5gakn4r3irt" path="res://ScriptableResources/MiscObjectsData/RockB.tres" id="14_emr5q"]
+[ext_resource type="Resource" uid="uid://c34gqrkjqvnrc" path="res://ScriptableResources/MiscObjectsData/RockC.tres" id="15_trm8c"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_s1xei"]
 size = Vector3(100, 10, 1)
@@ -30,7 +36,8 @@ _buildingRadiusMultiplier = 2.5
 _buildingDatas = [ExtResource("4_tjuwo"), ExtResource("5_def73"), ExtResource("6_38osx")]
 _buildingRayMask = 1
 _rotateBuilding = true
-_miscObjectDatas = [ExtResource("7_6p2ds"), ExtResource("8_70hby"), ExtResource("9_4tsc8")]
+_miscObjectRadiusMultiplier = 1.0
+_miscObjectDatas = [ExtResource("7_ieokb"), ExtResource("8_5gq81"), ExtResource("9_7cqee"), ExtResource("10_3t5mp"), ExtResource("11_gg1n8"), ExtResource("12_7v7mn"), ExtResource("13_h5jp0"), ExtResource("14_emr5q"), ExtResource("15_trm8c")]
 _miscObjectRayMask = 3
 _rotateMiscObject = true
 _groundRayMask = 3

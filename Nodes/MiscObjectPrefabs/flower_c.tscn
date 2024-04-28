@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://2ejoqhchwmy7"]
+
+[ext_resource type="Script" path="res://Scripts/Levels/LevelObject.cs" id="1_oxkvr"]
+[ext_resource type="PackedScene" uid="uid://2wtav6nc186y" path="res://ObjectModels/Miscs/flower_yellowC.glb" id="2_fkny7"]
+
+[node name="FlowerC" type="Node3D"]
+script = ExtResource("1_oxkvr")
+
+[node name="flower_yellowC2" parent="." instance=ExtResource("2_fkny7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0457968, 0)
