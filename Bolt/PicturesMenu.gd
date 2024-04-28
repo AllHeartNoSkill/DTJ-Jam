@@ -32,5 +32,4 @@ func _print_textures():
 	menu_ready = true
 
 func _check_pictures():
-	for i in range(5):
-		print(mission_nodes[i])
+	print("check pictures")

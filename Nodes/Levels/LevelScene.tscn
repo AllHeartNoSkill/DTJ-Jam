@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bbe84tcbewwqq"]
+[gd_scene load_steps=13 format=3 uid="uid://bbe84tcbewwqq"]
 
 [ext_resource type="Script" path="res://Scripts/Levels/LevelScene.cs" id="1_tn2fm"]
 [ext_resource type="Script" path="res://Scripts/Levels/LevelGenerator.cs" id="2_nypkv"]
@@ -9,6 +9,7 @@
 [ext_resource type="Resource" uid="uid://cojo524ffcp5l" path="res://ScriptableResources/MiscObjectsData/BlueBox.tres" id="7_6p2ds"]
 [ext_resource type="Resource" uid="uid://b2ielhc0ifp6n" path="res://ScriptableResources/MiscObjectsData/GreenBox.tres" id="8_70hby"]
 [ext_resource type="Resource" uid="uid://b584vey6cgso8" path="res://ScriptableResources/MiscObjectsData/RedBox.tres" id="9_4tsc8"]
+[ext_resource type="Resource" uid="uid://cxof0nn8mobnk" path="res://ScriptableResources/MiscObjectsData/PinkBox.tres" id="10_3it2j"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_s1xei"]
 size = Vector3(100, 10, 1)
@@ -31,7 +32,7 @@ _buildingDatas = [ExtResource("4_tjuwo"), ExtResource("5_def73"), ExtResource("6
 _buildingRayMask = 1
 _rotateBuilding = true
 _miscObjectRadiusMultiplier = 6.0
-_miscObjectDatas = [ExtResource("7_6p2ds"), ExtResource("8_70hby"), ExtResource("9_4tsc8")]
+_miscObjectDatas = [ExtResource("7_6p2ds"), ExtResource("8_70hby"), ExtResource("9_4tsc8"), ExtResource("10_3it2j")]
 _miscObjectRayMask = 3
 _rotateMiscObject = true
 _groundRayMask = 3
