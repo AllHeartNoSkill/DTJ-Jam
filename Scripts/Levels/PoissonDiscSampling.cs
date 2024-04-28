@@ -68,14 +68,14 @@ public static class PoissonDiscSampling
 		return false;
 	}
 	
-	public static Godot.Collections.Dictionary<LevelObject, Vector2> GenerateLevelObjects(Array<LevelObjectData> levelObjects, Vector2 sampleRegionSize, int[,] grid, float cellSize, float radiusMultiplier, int numSamplesBeforeRejection = 30) {
+	public static List<Vector2> GenerateLevelObjects(Array<LevelObjectData> levelObjects, Vector2 sampleRegionSize, int[,] grid, float cellSize, float radiusMultiplier, int numSamplesBeforeRejection, out List<LevelObject> spawnedLevelObjects, out List<Vector2> rotationLists) {
 		var random = new RandomNumberGenerator();
 		random.Randomize();
 
 		List<Vector2> points = new List<Vector2>();
 		List<Vector2> spawnPoints = new List<Vector2> { sampleRegionSize / 2 };
-		Godot.Collections.Dictionary<LevelObject, Vector2> spawnedLevelObjects =
-			new Godot.Collections.Dictionary<LevelObject, Vector2>();
+		spawnedLevelObjects = new List<LevelObject>();
+		rotationLists = new List<Vector2>();
 
 		while (spawnPoints.Count > 0) {
 			int spawnIndex = random.RandiRange(0,spawnPoints.Count - 1);
@@ -93,8 +93,9 @@ public static class PoissonDiscSampling
 				if (IsValid(candidate, sampleRegionSize, cellSize, chosenObjectData.ObjectGridSize * radiusMultiplier, points, grid)) {
 					points.Add(candidate);
 					spawnPoints.Add(candidate);
+					rotationLists.Add(dir);
 					LevelObject spawnedObject = (LevelObject)chosenObjectData.LevelObjectPrefab.Instantiate();
-					spawnedLevelObjects.Add(spawnedObject, candidate);
+					spawnedLevelObjects.Add(spawnedObject);
 					
 					grid[(int)(candidate.X / cellSize),(int)(candidate.Y / cellSize)] = points.Count;
 					candidateAccepted = true;
@@ -106,6 +107,6 @@ public static class PoissonDiscSampling
 			}
 		}
 
-		return spawnedLevelObjects;
+		return points;
 	}
 }

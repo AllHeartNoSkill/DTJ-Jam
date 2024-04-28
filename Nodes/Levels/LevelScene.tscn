@@ -24,9 +24,11 @@ _levelGridSize = Vector2i(75, 75)
 _buildingRadiusMultiplier = 2.5
 _buildingDatas = [ExtResource("4_tjuwo"), ExtResource("5_def73"), ExtResource("6_38osx")]
 _buildingRayMask = 1
+_rotateBuilding = true
 _miscObjectRadiusMultiplier = 2.0
 _miscObjectDatas = [ExtResource("7_6p2ds"), ExtResource("8_70hby"), ExtResource("9_4tsc8")]
 _miscObjectRayMask = 3
+_rotateMiscObject = true
 
 [node name="LevelPivot" type="Node3D" parent="."]
 
