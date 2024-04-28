@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using DTJJam.Scripts.Levels;
 using Godot.Collections;
 using Array = Godot.Collections.Array;
@@ -12,12 +13,19 @@ public partial class LevelGenerator : Node3D
 	[Export] private PackedScene _levelGridPrefab;
 	[Export] private float _levelPrefabSize = 25f;
 	[Export] private Vector2I _levelGridSize = new Vector2I();
+	[Export] private float _skyHeight = 10f;
 
 	[ExportGroup("Building Parameters")]
 	[Export] private float _buildingRadiusMultiplier = 3f;
 	[Export] private int _buildingRejectionSamples = 30;
-	[Export] private MeshInstance3D _temporaryPoint;
-	[Export] private Array<LevelObjectData> _buildingPrefabs = new Array<LevelObjectData>();
+	[Export] private Array<LevelObjectData> _buildingDatas = new Array<LevelObjectData>();
+	[Export(PropertyHint.Layers3DPhysics)] private uint _buildingRayMask;
+	
+	[ExportGroup("Misc Object Parameters")]
+	[Export] private float _miscObjectRadiusMultiplier = 3f;
+	[Export] private int _miscObjectRejectionSamples = 30;
+	[Export] private Array<LevelObjectData> _miscObjectDatas = new Array<LevelObjectData>();
+	[Export(PropertyHint.Layers3DPhysics)] private uint _miscObjectRayMask;
 
 	private Vector2 _regionSize = new Vector2();
 	private int[,] _levelGrid;
@@ -26,9 +34,13 @@ public partial class LevelGenerator : Node3D
 	private List<LevelGrid> _spawnedGrids = new List<LevelGrid>();
 	private Node3D _levelPivot;
 	
+	private PhysicsDirectSpaceState3D _worldSpace;
+	private PhysicsRayQueryParameters3D _rayParams = new PhysicsRayQueryParameters3D();
+	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		_worldSpace = GetWorld3D().DirectSpaceState;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -36,12 +48,15 @@ public partial class LevelGenerator : Node3D
 	{
 	}
 
-	public void GenerateLevel(Node3D levelPivot)
+	public async void GenerateLevel(Node3D levelPivot)
 	{
 		_levelPivot = levelPivot;
 		
 		GenerateGround();
+		await Task.Delay(1000);
 		GenerateBuilding();
+		await Task.Delay(1000);
+		GenerateMiscObject();
 	}
 
 	private void GenerateGround()
@@ -76,23 +91,53 @@ public partial class LevelGenerator : Node3D
 
 	private void GenerateBuilding()
 	{
+		_levelGrid = new int[_levelGridSize.X, _levelGridSize.Y];
 		Godot.Collections.Dictionary<LevelObject, Vector2> objectsToSpawn = PoissonDiscSampling.GenerateLevelObjects(
-			_buildingPrefabs,
+			_buildingDatas,
 			_regionSize,
 			_levelGrid,
 			_gridCellSize,
 			_buildingRadiusMultiplier,
 			_buildingRejectionSamples);
 
-		foreach (var objectSpawnData in objectsToSpawn)
-		{
-			AddChild(objectSpawnData.Key);
-			objectSpawnData.Key.Position = new Vector3(objectSpawnData.Value.X, 0f, objectSpawnData.Value.Y);
-		}
+		PlaceObjects(objectsToSpawn, false, _buildingRayMask);
 	}
 
-	private void PlaceBuilding(PackedScene buildingPrefab, int posX, int posY)
+	private void GenerateMiscObject()
 	{
-		
+		_levelGrid = new int[_levelGridSize.X, _levelGridSize.Y];
+		Godot.Collections.Dictionary<LevelObject, Vector2> objectsToSpawn = PoissonDiscSampling.GenerateLevelObjects(
+			_miscObjectDatas,
+			_regionSize,
+			_levelGrid,
+			_gridCellSize,
+			_miscObjectRadiusMultiplier,
+			_miscObjectRejectionSamples);
+
+		PlaceObjects(objectsToSpawn, true, _miscObjectRayMask);
+	}
+
+	private void PlaceObjects(Godot.Collections.Dictionary<LevelObject, Vector2> objectsToSpawn, bool rotateObject, uint collisionMask, bool collideWithBodies = true)
+	{
+		foreach (var objectSpawnData in objectsToSpawn)
+		{
+			Vector2 desiredPos = objectSpawnData.Value;
+			LevelObject levelObject = objectSpawnData.Key;
+			
+			Vector3 startRay = new Vector3(desiredPos.X, _skyHeight, desiredPos.Y);
+			Vector3 targetRay = new Vector3(desiredPos.X, -1f, desiredPos.Y);
+			_rayParams.From = startRay;
+			_rayParams.To = targetRay;
+			_rayParams.CollisionMask = collisionMask;
+			_rayParams.CollideWithBodies = collideWithBodies;
+			var result = _worldSpace.IntersectRay(_rayParams);
+
+			if (result.Count > 0)
+			{
+				AddChild(levelObject);
+				levelObject.Position = result["position"].AsVector3();
+			}
+			
+		}
 	}
 }
