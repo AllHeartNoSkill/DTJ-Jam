@@ -16,7 +16,7 @@ func _generate_texture(suffix):
 	print(viewport)
 	var image = viewport.get_texture().get_image()
 	print(image)
-	image.save_jpg("res://Bolt/texture" + str(suffix) + ".jpg")
+	image.save_jpg("res://TargetTextures/texture" + str(suffix) + ".jpg")
 
 # TODO get parameter according to level data
 func random_camera_pos(max_x, max_z):
