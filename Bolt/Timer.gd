@@ -21,7 +21,7 @@ func _process(delta):
 	var seconds: int = _rounded % 60
 	var minutes: int = (_rounded - seconds) / 60
 
-	_label.text = "%02d:%02d" % [minutes, seconds]
+	_label.text = "[center]%02d:%02d[/center]" % [minutes, seconds]
 
 	pass
 
