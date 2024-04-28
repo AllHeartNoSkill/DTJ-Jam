@@ -59,7 +59,7 @@ public partial class LevelGenerator : Node3D
 	{
 	}
 
-	public async void GenerateLevel(Node3D levelPivot)
+	public async Task GenerateLevel(Node3D levelPivot)
 	{
 		_levelPivot = levelPivot;
 		
