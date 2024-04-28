@@ -1,13 +1,12 @@
-[gd_scene load_steps=13 format=3 uid="uid://c8brehlnis31y"]
+[gd_scene load_steps=12 format=3 uid="uid://c8brehlnis31y"]
 
 [ext_resource type="Script" path="res://Scripts/Levels/LevelScene.cs" id="1_b7vbt"]
 [ext_resource type="Script" path="res://Scripts/Levels/LevelGenerator.cs" id="2_72mmu"]
 [ext_resource type="PackedScene" uid="uid://cml57dykp2jew" path="res://Nodes/Levels/LevelGrid.tscn" id="3_yp0s1"]
-[ext_resource type="Resource" uid="uid://ba4gqf7hkq7vm" path="res://ScriptableResources/BuildingDatas/BuildingA.tres" id="4_b4klc"]
-[ext_resource type="Resource" uid="uid://dph42dublm62e" path="res://ScriptableResources/BuildingDatas/BuildingB.tres" id="5_vhw11"]
-[ext_resource type="Resource" uid="uid://b5rquhw4xtwif" path="res://ScriptableResources/BuildingDatas/BuildingC.tres" id="6_yxeeh"]
 [ext_resource type="Script" path="res://player.gd" id="7_b664n"]
 [ext_resource type="PackedScene" uid="uid://c2aahriupohq7" path="res://Bolt/Pause Menu.tscn" id="8_o0e7l"]
+[ext_resource type="PackedScene" uid="uid://vli0n5fwy2pp" path="res://Graphics/Models/allanim.tscn" id="8_ubdka"]
+[ext_resource type="Script" path="res://Graphics/Models/allanim.gd" id="9_xck21"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hq6no"]
 albedo_color = Color(1, 0, 0, 1)
@@ -27,14 +26,12 @@ script = ExtResource("1_b7vbt")
 _levelGenerator = NodePath("LevelGenerator")
 _levelPivot = NodePath("LevelPivot")
 
-[node name="LevelGenerator" type="Node3D" parent="LevelScene" node_paths=PackedStringArray("_temporaryPoint")]
+[node name="LevelGenerator" type="Node3D" parent="LevelScene"]
 script = ExtResource("2_72mmu")
 _groundGridSize = Vector2i(3, 3)
 _levelGridPrefab = ExtResource("3_yp0s1")
 _levelGridSize = Vector2i(75, 75)
 _buildingRadiusMultiplier = 2.0
-_temporaryPoint = NodePath("../MeshInstance3D")
-_buildingPrefabs = [ExtResource("4_b4klc"), ExtResource("5_vhw11"), ExtResource("6_yxeeh")]
 
 [node name="LevelPivot" type="Node3D" parent="LevelScene"]
 
@@ -58,6 +55,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.002446)
 
 [node name="PlayerCamera" type="Camera3D" parent="Player/Neck"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0765228, 0.505051)
+
+[node name="all2" parent="Player/Neck/PlayerCamera" instance=ExtResource("8_ubdka")]
+transform = Transform3D(-0.2, 0, -3.01992e-08, 0, 0.2, 0, 3.01992e-08, 0, -0.2, 0.0128727, -0.370252, -1.26279)
+script = ExtResource("9_xck21")
 
 [node name="Collider" type="CollisionShape3D" parent="Player"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.410849, -0.0048126)
