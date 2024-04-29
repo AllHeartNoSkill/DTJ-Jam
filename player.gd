@@ -10,16 +10,35 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 @onready var neck := $Neck
 @onready var player := $"."
 
+var tree: AnimationTree
+var camera_sprite: Sprite3D
+var capture_viewport: SubViewport
+var is_capturing: bool
+
+var capture_camera: Camera3D
+var capture_camera_ref: Node3D
+
+func _ready():
+	tree = get_node("Neck/all2/AnimationTree")
+	capture_viewport = get_node("CaptureViewport")
+	camera_sprite = get_node("Neck/all2/Armature/Skeleton3D/BoneAttachment3D/CameraSprite")
+	capture_camera = get_node("CaptureViewport/Camera3D")
+	capture_camera_ref = get_node("Neck/CameraPosRef")
+
 func _input(event):
 	if event is InputEventMouseButton:
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	elif event.is_action_pressed("ui_cancel"):
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
+		if (is_capturing):
+			return
 		if event is InputEventMouseMotion:
-			neck.rotate_x(-event.relative.y * MOUSE_SENSITIVY)
-			player.rotate_y(-event.relative.x * MOUSE_SENSITIVY)
-			neck.rotation.x = clamp(neck.rotation.x, deg_to_rad(-30), deg_to_rad(60))
+			neck.rotate_x( - event.relative.y * MOUSE_SENSITIVY)
+			player.rotate_y( - event.relative.x * MOUSE_SENSITIVY)
+			neck.rotation.x = clamp(neck.rotation.x, deg_to_rad( - 30), deg_to_rad(60))
+		if (Input.is_action_pressed("capture")):
+			_capture()
 
 func _exit_tree():
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
@@ -35,6 +54,9 @@ func _physics_process(delta):
 
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
+	if (is_capturing):
+		return
+
 	var input_dir = Input.get_vector("left", "right", "forward", "back")
 	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	if direction:
@@ -45,3 +67,15 @@ func _physics_process(delta):
 		velocity.z = move_toward(velocity.z, 0, SPEED)
 
 	move_and_slide()
+
+func _capture():
+	is_capturing = true
+	tree.set("parameters/capture/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
+
+	await get_tree().create_timer(1).timeout
+	capture_camera.global_transform = capture_camera_ref.global_transform
+
+	camera_sprite.texture = capture_viewport.get_texture()
+	camera_sprite.show()
+
+	is_capturing = false

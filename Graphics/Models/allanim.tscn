@@ -33,7 +33,7 @@ animation = &"Idle_R"
 [sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_rl3tf"]
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_mejk8"]
-graph_offset = Vector2(482.679, 108.526)
+graph_offset = Vector2(-663.031, -187.482)
 nodes/Add2/node = SubResource("AnimationNodeAdd2_lw3mt")
 nodes/Add2/position = Vector2(80, 40)
 "nodes/Add2 2/node" = SubResource("AnimationNodeAdd2_qd87m")
@@ -85,6 +85,13 @@ bones/21/scale = Vector3(1, 1, 1)
 bones/22/rotation = Quaternion(-0.0798169, 0.0855384, -0.123869, 0.985377)
 bones/23/rotation = Quaternion(-0.119698, 0.0140284, -0.151593, 0.981068)
 
+[node name="Object_6" parent="Object_4/Skeleton3D" index="0"]
+layers = 8
+
+[node name="Object_7" parent="Object_4/Skeleton3D" index="1"]
+visible = false
+layers = 8
+
 [node name="Skeleton3D" parent="Object_4_001" index="1"]
 bones/1/position = Vector3(-78.6492, 37.4684, 8.26936)
 bones/1/rotation = Quaternion(0.560725, -0.613967, -0.46581, 0.302743)
@@ -106,14 +113,30 @@ bones/19/position = Vector3(12.3388, -3.54038e-06, -7.52389e-06)
 bones/20/position = Vector3(20.8643, 2.89692e-06, -6.40927e-06)
 bones/20/rotation = Quaternion(5.11884e-15, -4.36699e-08, -6.70552e-08, 1)
 bones/21/rotation = Quaternion(-0.379943, 0.270147, 0.3048, 0.830519)
-bones/21/scale = Vector3(1, 1, 1)
 bones/22/rotation = Quaternion(0.0508161, 0.0928948, -0.173414, 0.97914)
 bones/23/rotation = Quaternion(-0.00287429, 0.0720933, -0.0645482, 0.995303)
 bones/24/position = Vector3(23.661, -6.67572e-06, 2.38418e-06)
 
+[node name="Object_7_001" parent="Object_4_001/Skeleton3D" index="0"]
+layers = 8
+
+[node name="Object_6_001" parent="Object_4_001/Skeleton3D" index="1"]
+layers = 8
+
 [node name="Skeleton3D" parent="Armature" index="0"]
 bones/0/position = Vector3(0, -0.814347, 0)
 bones/0/rotation = Quaternion(0.240639, 8.27645e-09, 0.0117691, 0.970543)
+
+[node name="Cube" parent="Armature/Skeleton3D" index="0"]
+layers = 8
+
+[node name="BoneAttachment3D" type="BoneAttachment3D" parent="Armature/Skeleton3D" index="1"]
+transform = Transform3D(0.999723, -0.0228448, 0.0056642, 0.0228448, 0.883909, -0.467101, 0.00566416, 0.467101, 0.884186, 0, -0.814347, 0)
+bone_name = "Bone"
+bone_idx = 0
+
+[node name="CameraSprite" type="Sprite3D" parent="Armature/Skeleton3D/BoneAttachment3D" index="0"]
+transform = Transform3D(-0.18, 3.75439e-09, 3.49244e-10, 3.75439e-09, 0.18, -1.04308e-07, 3.49246e-10, 1.04308e-07, 0.18, 0.335598, -0.047377, -0.237578)
 
 [node name="AnimationTree" type="AnimationTree" parent="." index="6"]
 tree_root = SubResource("AnimationNodeBlendTree_mejk8")

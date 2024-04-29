@@ -5,11 +5,14 @@ var textures: Array
 var mission_nodes: Array
 
 var menu_ready = false
+var doneTexture
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	get_node("../SubViewport").generate_texture_signal.connect(_print_textures)
 	pictures_menu = get_node(".")
+	var doneImage = Image.load_from_file("res://GeneratedTextures/done.jpg")
+	doneTexture = ImageTexture.create_from_image(doneImage)
 	textures = []
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
