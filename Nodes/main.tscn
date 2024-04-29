@@ -142,8 +142,39 @@ script = ExtResource("7_akpp1")
 
 [node name="TextureCamera" type="Camera3D" parent="SubViewport"]
 
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 12.3736, 9.75066, 6.43605)
+texture = SubResource("ViewportTexture_76oam")
+
+[node name="Pillars" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Pillars"]
+transform = Transform3D(3, 0, 0, 0, 50, 0, 0, 0, 3, 0, 0, 0)
+mesh = SubResource("BoxMesh_bx5kv")
+surface_material_override/0 = SubResource("StandardMaterial3D_xp43m")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Pillars"]
+transform = Transform3D(3, 0, 0, 0, 50, 0, 0, 0, 3, 0, 0, 75.0258)
+mesh = SubResource("BoxMesh_bx5kv")
+surface_material_override/0 = SubResource("StandardMaterial3D_y4ch4")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Pillars"]
+transform = Transform3D(3, 0, 0, 0, 50, 0, 0, 0, 3, 74.6465, 0, 75.0258)
+mesh = SubResource("BoxMesh_bx5kv")
+surface_material_override/0 = SubResource("StandardMaterial3D_kx0eu")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="Pillars"]
+transform = Transform3D(3, 0, 0, 0, 50, 0, 0, 0, 3, 74.6465, 0, 0.886024)
+mesh = SubResource("BoxMesh_bx5kv")
+surface_material_override/0 = SubResource("StandardMaterial3D_lxmw2")
+
+[connection signal="pressed" from="PauseMenu/PauseMenu/VFlowContainer/Quit" to="Menu" method="OnQuitButtonPressed"]
 [connection signal="pressed" from="Menu/MainMenu/Play" to="Menu" method="OnPlayButtonPressed"]
 [connection signal="pressed" from="Menu/MainMenu/Quit" to="Menu" method="OnQuitButtonPressed"]
 [connection signal="pressed" from="Menu/RestartMenu/Restart" to="Menu" method="OnRestartButtonPressed"]
 [connection signal="pressed" from="Menu/RestartMenu/Quit" to="Menu" method="OnQuitButtonPressed"]
 [connection signal="StartGameSignal" from="GameEvents" to="PauseMenu" method="_on_game_events_start_game_signal"]
+[connection signal="generated_texture" from="SubViewport" to="PicturesMenu" method="_on_sub_viewport_generated_texture"]
+
+[editable path="PauseMenu"]
+[editable path="Player"]

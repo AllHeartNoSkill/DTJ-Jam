@@ -2,6 +2,7 @@ extends SubViewport
 
 var mission_system: Node3D
 signal generate_texture_signal()
+signal generated_texture(index: int, texture: Image)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -15,8 +16,9 @@ func _generate_texture(suffix):
 	var viewport = get_viewport()
 	print(viewport)
 	var image = viewport.get_texture().get_image()
+	generated_texture.emit(suffix, image)
 	print(image)
-	image.save_jpg("res://GeneratedTextures/texture" + str(suffix) + ".jpg")
+	# image.save_jpg("res://GeneratedTextures/texture" + str(suffix) + ".jpg")
 
 # TODO get parameter according to level data
 # func random_camera_pos(max_x, max_z):
