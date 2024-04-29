@@ -11,6 +11,8 @@ public partial class MissionSystem : Node3D
 	[Export] private float _angleTolerance = 15f;
 	
 	public List<Node3D> PhotoPoints { get; private set; }
+
+	private int _photoDoneCOunter = 0;
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -46,19 +48,19 @@ public partial class MissionSystem : Node3D
 		{
 			float smallestDistance = Mathf.Inf;
 			Node3D chosenNode = PhotoPoints[0];
-			int counter = 0;
-			foreach (var point in PhotoPoints)
+
+			for (int i = 0; i < PhotoPoints.Count; i++)
 			{
+				var point = PhotoPoints[i];
 				if(!point.Visible) continue;
 				float dist = (point.GlobalPosition - playerNode.GlobalPosition).LengthSquared();
 				if (dist < smallestDistance)
 				{
 					chosenNode = point;
-					chosenIndex = counter;
+					chosenIndex = i;
 					smallestDistance = dist;
 				}
 
-				counter += 1;
 			}
 
 			distance = smallestDistance;
@@ -81,8 +83,9 @@ public partial class MissionSystem : Node3D
 		GD.Print($"Mission Complete On {missionNode.Name} index {index}");
 		missionNode.Hide();
 		GameEvents.Instance.MissionComplete(index);
+		_photoDoneCOunter += 1;
 
-		if (PhotoPoints.Count == 0)
+		if (PhotoPoints.Count <= _photoDoneCOunter)
 		{
 			GameComplete();
 		}
